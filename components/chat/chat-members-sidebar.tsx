@@ -31,14 +31,14 @@ export function ChatMembersSidebar({ room, onlineUsers }: ChatMembersSidebarProp
         {/* Online Members */}
         {onlineMembers.length > 0 && (
           <div className="px-4 mb-4">
-            <h4 className="text-xs font-semibold text-slate-400 uppercase mb-2">
+            <h4 className="text-xs font-semibold text-[hsl(var(--text-secondary))] uppercase mb-2">
               Online — {onlineMembers.length}
             </h4>
             <div className="space-y-1">
               {onlineMembers.map((member) => (
                 <div
                   key={member.id}
-                  className="flex items-center gap-3 px-2 py-1.5 rounded hover:bg-slate-700/50 cursor-pointer"
+                  className="flex items-center gap-3 px-2 py-1.5 rounded hover:bg-[hsl(var(--layout-card-hover))]/50 cursor-pointer"
                 >
                   <div className="relative">
                     <Avatar className="h-8 w-8">
@@ -47,20 +47,20 @@ export function ChatMembersSidebar({ room, onlineUsers }: ChatMembersSidebarProp
                         {getInitials(member.user.name)}
                       </AvatarFallback>
                     </Avatar>
-                    <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-[#131d2e]" />
+                    <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-[hsl(var(--layout-card))]" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p
                       className={cn(
                         'text-sm font-medium truncate',
-                        member.user.id === user?.id ? 'text-blue-400' : 'text-slate-200'
+                        member.user.id === user?.id ? 'text-blue-400' : 'text-[hsl(var(--text-primary))]'
                       )}
                     >
                       {member.user.name}
                       {member.user.id === user?.id && ' (you)'}
                     </p>
                     {member.user.role && (
-                      <p className="text-xs text-slate-500 truncate">{member.user.role}</p>
+                      <p className="text-xs text-[hsl(var(--text-secondary))] truncate">{member.user.role}</p>
                     )}
                   </div>
                 </div>
@@ -72,14 +72,14 @@ export function ChatMembersSidebar({ room, onlineUsers }: ChatMembersSidebarProp
         {/* Offline Members */}
         {offlineMembers.length > 0 && (
           <div className="px-4">
-            <h4 className="text-xs font-semibold text-slate-400 uppercase mb-2">
+            <h4 className="text-xs font-semibold text-[hsl(var(--text-secondary))] uppercase mb-2">
               Offline — {offlineMembers.length}
             </h4>
             <div className="space-y-1">
               {offlineMembers.map((member) => (
                 <div
                   key={member.id}
-                  className="flex items-center gap-3 px-2 py-1.5 rounded hover:bg-slate-700/50 cursor-pointer opacity-60"
+                  className="flex items-center gap-3 px-2 py-1.5 rounded hover:bg-[hsl(var(--layout-card-hover))]/50 cursor-pointer opacity-60"
                 >
                   <div className="relative">
                     <Avatar className="h-8 w-8">
@@ -88,20 +88,20 @@ export function ChatMembersSidebar({ room, onlineUsers }: ChatMembersSidebarProp
                         {getInitials(member.user.name)}
                       </AvatarFallback>
                     </Avatar>
-                    <span className="absolute bottom-0 right-0 w-3 h-3 bg-slate-500 rounded-full border-2 border-[#131d2e]" />
+                    <span className="absolute bottom-0 right-0 w-3 h-3 bg-slate-500 rounded-full border-2 border-[hsl(var(--layout-card))]" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p
                       className={cn(
                         'text-sm font-medium truncate',
-                        member.user.id === user?.id ? 'text-blue-400' : 'text-slate-300'
+                        member.user.id === user?.id ? 'text-blue-400' : 'text-[hsl(var(--text-primary))]'
                       )}
                     >
                       {member.user.name}
                       {member.user.id === user?.id && ' (you)'}
                     </p>
                     {member.user.role && (
-                      <p className="text-xs text-slate-500 truncate">{member.user.role}</p>
+                      <p className="text-xs text-[hsl(var(--text-secondary))] truncate">{member.user.role}</p>
                     )}
                   </div>
                 </div>

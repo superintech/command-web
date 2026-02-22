@@ -29,9 +29,15 @@ interface UseSocketOptions {
 export function useSocket(options: UseSocketOptions = {}) {
   const { accessToken, user } = useAuthStore();
   const socketRef = useRef<Socket | null>(null);
+  const optionsRef = useRef(options);
   const [isConnected, setIsConnected] = useState(false);
   const [currentRoomId, setCurrentRoomId] = useState<string | null>(null);
   const [onlineUsers, setOnlineUsers] = useState<Set<string>>(new Set());
+
+  // Keep options ref in sync so socket listeners always call latest callbacks
+  useEffect(() => {
+    optionsRef.current = options;
+  });
 
   // Initialize socket connection
   useEffect(() => {
@@ -60,28 +66,28 @@ export function useSocket(options: UseSocketOptions = {}) {
     });
 
     socket.on('new-message', (message: ChatMessage) => {
-      options.onMessage?.(message);
+      optionsRef.current.onMessage?.(message);
     });
 
     socket.on('user-joined', (data) => {
-      options.onUserJoined?.(data);
+      optionsRef.current.onUserJoined?.(data);
     });
 
     socket.on('user-left', (data) => {
-      options.onUserLeft?.(data);
+      optionsRef.current.onUserLeft?.(data);
     });
 
     socket.on('user-typing', (data) => {
-      options.onUserTyping?.(data);
+      optionsRef.current.onUserTyping?.(data);
     });
 
     socket.on('user-stopped-typing', (data) => {
-      options.onUserStoppedTyping?.(data);
+      optionsRef.current.onUserStoppedTyping?.(data);
     });
 
     socket.on('online-users', (userIds: string[]) => {
       setOnlineUsers(new Set(userIds));
-      options.onOnlineUsersUpdate?.(userIds);
+      optionsRef.current.onOnlineUsersUpdate?.(userIds);
     });
 
     socket.on('user-online', (userId: string) => {
@@ -97,12 +103,12 @@ export function useSocket(options: UseSocketOptions = {}) {
     });
 
     socket.on('mention-notification', (data: MentionNotification) => {
-      options.onMentionNotification?.(data);
+      optionsRef.current.onMentionNotification?.(data);
     });
 
     socket.on('error', (error) => {
       console.error('Socket error:', error);
-      options.onError?.(error);
+      optionsRef.current.onError?.(error);
     });
 
     socketRef.current = socket;

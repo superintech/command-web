@@ -55,6 +55,8 @@ import {
   Calendar,
   UsersRound,
   KeyRound,
+  AlertTriangle,
+  RotateCcw,
 } from 'lucide-react';
 
 export default function TeamPage() {
@@ -71,6 +73,7 @@ export default function TeamPage() {
   const [showPermissionsDialog, setShowPermissionsDialog] = useState(false);
   const [showTeamMembersDialog, setShowTeamMembersDialog] = useState(false);
   const [showResetPasswordDialog, setShowResetPasswordDialog] = useState(false);
+  const [showConfirmPermanentDeleteDialog, setShowConfirmPermanentDeleteDialog] = useState(false);
 
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
@@ -156,6 +159,28 @@ export default function TeamPage() {
     },
     onError: (error: Error) => {
       toast({ title: 'Failed to deactivate user', description: error.message, variant: 'destructive' });
+    },
+  });
+
+  const reactivateUserMutation = useMutation({
+    mutationFn: (id: string) => usersApi.update(id, { isActive: true }, accessToken!),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+      toast({ title: 'User reactivated successfully' });
+    },
+    onError: (error: Error) => {
+      toast({ title: 'Failed to reactivate user', description: error.message, variant: 'destructive' });
+    },
+  });
+
+  const permanentlyDeleteUserMutation = useMutation({
+    mutationFn: (id: string) => usersApi.permanentlyDelete(id, accessToken!),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+      toast({ title: 'User permanently deleted' });
+    },
+    onError: (error: Error) => {
+      toast({ title: 'Failed to delete user', description: error.message, variant: 'destructive' });
     },
   });
 
@@ -315,8 +340,8 @@ export default function TeamPage() {
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Team Management</h1>
-          <p className="text-gray-500 mt-1">Manage users, teams, and invitations</p>
+          <h1 className="text-2xl font-bold text-[hsl(var(--text-primary))]">Team Management</h1>
+          <p className="text-[hsl(var(--text-secondary))] mt-1">Manage users, teams, and invitations</p>
         </div>
         {(canInviteUsers || canCreateUsers) && (
           <div className="flex gap-2">
@@ -340,46 +365,46 @@ export default function TeamPage() {
       <div className="grid gap-4 md:grid-cols-4">
         <Card className="border-0 shadow-sm hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Total Users</CardTitle>
+            <CardTitle className="text-sm font-medium text-[hsl(var(--text-secondary))]">Total Users</CardTitle>
             <div className="p-2 bg-blue-100 rounded-xl">
               <Users className="h-5 w-5 text-blue-600" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-gray-900">{users.filter((u) => u.isActive).length}</div>
+            <div className="text-3xl font-bold text-[hsl(var(--text-primary))]">{users.filter((u) => u.isActive).length}</div>
           </CardContent>
         </Card>
         <Card className="border-0 shadow-sm hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Teams</CardTitle>
+            <CardTitle className="text-sm font-medium text-[hsl(var(--text-secondary))]">Teams</CardTitle>
             <div className="p-2 bg-green-100 rounded-xl">
               <UsersRound className="h-5 w-5 text-green-600" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-gray-900">{teams.length}</div>
+            <div className="text-3xl font-bold text-[hsl(var(--text-primary))]">{teams.length}</div>
           </CardContent>
         </Card>
         <Card className="border-0 shadow-sm hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Pending Invites</CardTitle>
+            <CardTitle className="text-sm font-medium text-[hsl(var(--text-secondary))]">Pending Invites</CardTitle>
             <div className="p-2 bg-yellow-100 rounded-xl">
               <Mail className="h-5 w-5 text-yellow-600" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-gray-900">{invitations.filter((i) => i.status === 'PENDING').length}</div>
+            <div className="text-3xl font-bold text-[hsl(var(--text-primary))]">{invitations.filter((i) => i.status === 'PENDING').length}</div>
           </CardContent>
         </Card>
         <Card className="border-0 shadow-sm hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Departments</CardTitle>
+            <CardTitle className="text-sm font-medium text-[hsl(var(--text-secondary))]">Departments</CardTitle>
             <div className="p-2 bg-purple-100 rounded-xl">
               <Building2 className="h-5 w-5 text-purple-600" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-gray-900">{departments.length}</div>
+            <div className="text-3xl font-bold text-[hsl(var(--text-primary))]">{departments.length}</div>
           </CardContent>
         </Card>
       </div>
@@ -425,7 +450,7 @@ export default function TeamPage() {
             <Card>
               <CardContent className="flex flex-col items-center justify-center py-12">
                 <Users className="h-12 w-12 text-gray-300" />
-                <h3 className="mt-4 text-lg font-medium text-gray-900">No users found</h3>
+                <h3 className="mt-4 text-lg font-medium text-[hsl(var(--text-primary))]">No users found</h3>
                 <p className="mt-2 text-sm text-gray-500">
                   {search ? 'Try a different search term' : 'Add users to get started'}
                 </p>
@@ -443,8 +468,8 @@ export default function TeamPage() {
                           <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
                         </Avatar>
                         <div className="min-w-0">
-                          <h3 className="font-semibold text-gray-900">{user.name}</h3>
-                          <p className="text-sm text-gray-500 truncate">{user.email}</p>
+                          <h3 className="font-semibold text-[hsl(var(--text-primary))]">{user.name}</h3>
+                          <p className="text-sm text-[hsl(var(--text-secondary))] truncate">{user.email}</p>
                           {user.designation && (
                             <p className="text-xs text-gray-400 flex items-center gap-1 mt-1">
                               <Briefcase className="h-3 w-3" />
@@ -495,13 +520,32 @@ export default function TeamPage() {
                               </>
                             )}
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem
-                              onClick={() => deleteUserMutation.mutate(user.id)}
-                              className="text-red-600"
-                            >
-                              <Trash2 className="h-4 w-4 mr-2" />
-                              Deactivate
-                            </DropdownMenuItem>
+                            {user.isActive ? (
+                              <DropdownMenuItem
+                                onClick={() => deleteUserMutation.mutate(user.id)}
+                                className="text-red-600"
+                              >
+                                <Trash2 className="h-4 w-4 mr-2" />
+                                Deactivate
+                              </DropdownMenuItem>
+                            ) : (
+                              <>
+                                <DropdownMenuItem
+                                  onClick={() => reactivateUserMutation.mutate(user.id)}
+                                  className="text-green-600"
+                                >
+                                  <RotateCcw className="h-4 w-4 mr-2" />
+                                  Reactivate
+                                </DropdownMenuItem>
+                                <DropdownMenuItem
+                                  onClick={() => { setSelectedUser(user); setShowConfirmPermanentDeleteDialog(true); }}
+                                  className="text-red-600"
+                                >
+                                  <AlertTriangle className="h-4 w-4 mr-2" />
+                                  Delete Permanently
+                                </DropdownMenuItem>
+                              </>
+                            )}
                           </DropdownMenuContent>
                         </DropdownMenu>
                       )}
@@ -538,7 +582,7 @@ export default function TeamPage() {
             <Card>
               <CardContent className="flex flex-col items-center justify-center py-12">
                 <UsersRound className="h-12 w-12 text-gray-300" />
-                <h3 className="mt-4 text-lg font-medium text-gray-900">No teams found</h3>
+                <h3 className="mt-4 text-lg font-medium text-[hsl(var(--text-primary))]">No teams found</h3>
                 <p className="mt-2 text-sm text-gray-500">Create a team to organize your members</p>
               </CardContent>
             </Card>
@@ -626,7 +670,7 @@ export default function TeamPage() {
             <Card>
               <CardContent className="flex flex-col items-center justify-center py-12">
                 <Mail className="h-12 w-12 text-gray-300" />
-                <h3 className="mt-4 text-lg font-medium text-gray-900">No invitations</h3>
+                <h3 className="mt-4 text-lg font-medium text-[hsl(var(--text-primary))]">No invitations</h3>
                 <p className="mt-2 text-sm text-gray-500">Send invitations to add new team members</p>
               </CardContent>
             </Card>
@@ -757,6 +801,37 @@ export default function TeamPage() {
         onSubmit={(password) => selectedUser && resetPasswordMutation.mutate({ userId: selectedUser.id, password })}
         isLoading={resetPasswordMutation.isPending}
       />
+
+      {/* Confirm Permanent Delete Dialog */}
+      <Dialog open={showConfirmPermanentDeleteDialog} onOpenChange={(open) => { setShowConfirmPermanentDeleteDialog(open); if (!open) setSelectedUser(null); }}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-red-600">
+              <AlertTriangle className="h-5 w-5" />
+              Delete User Permanently
+            </DialogTitle>
+            <DialogDescription>
+              This will permanently remove <strong>{selectedUser?.name}</strong> and all their data. This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowConfirmPermanentDeleteDialog(false)}>Cancel</Button>
+            <Button
+              variant="destructive"
+              onClick={() => {
+                if (selectedUser) {
+                  permanentlyDeleteUserMutation.mutate(selectedUser.id);
+                  setShowConfirmPermanentDeleteDialog(false);
+                  setSelectedUser(null);
+                }
+              }}
+              disabled={permanentlyDeleteUserMutation.isPending}
+            >
+              {permanentlyDeleteUserMutation.isPending ? 'Deleting...' : 'Delete Permanently'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -3,8 +3,8 @@
 import { useEffect, useRef } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { useAuthStore } from '@/lib/auth-store';
+import { useUnreadStore } from '@/lib/unread-store';
 import { toast } from '@/hooks/use-toast';
-import { AtSign } from 'lucide-react';
 
 const SOCKET_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 
@@ -53,6 +53,16 @@ export function ChatNotificationProvider({ children }: { children: React.ReactNo
       } catch {
         // Ignore if audio not available
       }
+    });
+
+    // Listen for unread-message events to update sidebar badges
+    socket.on('unread-message', (data: { roomId: string; senderId: string; messageId: string }) => {
+      // Skip messages from ourselves
+      if (data.senderId === user.id) return;
+      // Skip if this room is currently active (user is reading it)
+      const { activeRoomId, incrementForRoom } = useUnreadStore.getState();
+      if (data.roomId === activeRoomId) return;
+      incrementForRoom(data.roomId);
     });
 
     socket.on('disconnect', () => {

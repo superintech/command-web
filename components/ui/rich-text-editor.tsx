@@ -272,12 +272,12 @@ export function RichTextDisplay({ content, className }: { content: string; class
     <div
       className={cn(
         'prose prose-sm prose-invert max-w-none',
-        'prose-p:my-1 prose-p:text-white prose-ul:my-1 prose-ol:my-1 prose-li:my-0 prose-li:text-white',
-        'prose-blockquote:border-l-2 prose-blockquote:border-slate-500 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-slate-300',
-        'prose-code:bg-slate-700 prose-code:px-1 prose-code:rounded prose-code:text-white',
-        'prose-pre:bg-slate-900 prose-pre:text-slate-100',
-        'prose-strong:text-white prose-em:text-white',
-        'prose-headings:text-white',
+        'prose-p:my-1 prose-p:text-[hsl(var(--text-primary))] prose-ul:my-1 prose-ol:my-1 prose-li:my-0 prose-li:text-[hsl(var(--text-primary))]',
+        'prose-blockquote:border-l-2 prose-blockquote:border-[hsl(var(--layout-border))] prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-[hsl(var(--text-primary))]',
+        'prose-code:bg-[hsl(var(--layout-border))] prose-code:px-1 prose-code:rounded prose-code:text-[hsl(var(--text-primary))]',
+        'prose-pre:bg-[hsl(var(--layout-bg))] prose-pre:text-[hsl(var(--text-primary))]',
+        'prose-strong:text-[hsl(var(--text-primary))] prose-em:text-[hsl(var(--text-primary))]',
+        'prose-headings:text-[hsl(var(--text-primary))]',
         '[&_a]:!text-blue-400 [&_a]:underline [&_a:hover]:!text-blue-300',
         className
       )}

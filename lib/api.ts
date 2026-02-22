@@ -111,6 +111,8 @@ export const authApi = {
 
   me: (token: string) =>
     api.get<{ success: boolean; data: User }>('/api/auth/me', token),
+
+  googleLoginUrl: () => `${API_URL}/api/auth/google`,
 };
 
 // Types
@@ -370,6 +372,9 @@ export const usersApi = {
 
   delete: (id: string, token: string) =>
     api.delete<{ success: boolean; message: string }>(`/api/users/${id}`, token),
+
+  permanentlyDelete: (id: string, token: string) =>
+    api.delete<{ success: boolean; message: string }>(`/api/users/${id}/permanent`, token),
 
   // Profile
   getProfile: (id: string, token: string) =>

@@ -146,7 +146,7 @@ export default function DashboardPage() {
         );
       default:
         return (
-          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-slate-400">
+          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-[hsl(var(--text-secondary))]">
             {status}
             <span className="w-2 h-2 rounded-full bg-slate-400"></span>
           </span>
@@ -177,7 +177,7 @@ export default function DashboardPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-[11px] font-medium text-[hsl(var(--text-secondary))] tracking-wider uppercase">Active Projects</p>
-                  <p className="text-3xl font-bold text-[hsl(var(--text-primary))] mt-1">{String(activeProjects).padStart(2, '0')}</p>
+                  <p className="text-3xl font-bold text-[hsl(var(--text-primary))] mt-1">{activeProjects}</p>
                 </div>
                 <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
                   <FolderKanban className="h-5 w-5 text-emerald-400" />
@@ -193,7 +193,7 @@ export default function DashboardPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-[11px] font-medium text-[hsl(var(--text-secondary))] tracking-wider uppercase">Assigned Tasks</p>
-                  <p className="text-3xl font-bold text-[hsl(var(--text-primary))] mt-1">{String(myTasks.length).padStart(2, '0')}</p>
+                  <p className="text-3xl font-bold text-[hsl(var(--text-primary))] mt-1">{myTasks.length}</p>
                 </div>
                 <div className="w-10 h-10 rounded-full bg-orange-500/20 flex items-center justify-center">
                   <CheckSquare className="h-5 w-5 text-orange-400" />
@@ -209,7 +209,7 @@ export default function DashboardPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-[11px] font-medium text-[hsl(var(--text-secondary))] tracking-wider uppercase">In Progress Tasks</p>
-                  <p className="text-3xl font-bold text-[hsl(var(--text-primary))] mt-1">{String(inProgressTasks.length).padStart(2, '0')}</p>
+                  <p className="text-3xl font-bold text-[hsl(var(--text-primary))] mt-1">{inProgressTasks.length}</p>
                 </div>
                 <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center">
                   <Clock className="h-5 w-5 text-blue-400" />
@@ -225,7 +225,7 @@ export default function DashboardPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-[11px] font-medium text-[hsl(var(--text-secondary))] tracking-wider uppercase">Team Members</p>
-                  <p className="text-3xl font-bold text-[hsl(var(--text-primary))] mt-1">{String(activeUsers).padStart(2, '0')}</p>
+                  <p className="text-3xl font-bold text-[hsl(var(--text-primary))] mt-1">{activeUsers}</p>
                 </div>
                 <div className="w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center">
                   <Users className="h-5 w-5 text-yellow-400" />
@@ -275,34 +275,34 @@ export default function DashboardPage() {
               {/* Overdue Alert */}
               {overdueTasks.length > 0 && (
                 <div
-                  className="flex items-center justify-between bg-[#131d2e]/80 backdrop-blur-sm rounded-xl px-4 py-3 cursor-pointer hover:bg-[#131d2e] transition-colors"
+                  className="flex items-center justify-between bg-[hsl(var(--layout-card))]/80 backdrop-blur-sm rounded-xl px-4 py-3 cursor-pointer hover:bg-[hsl(var(--layout-card))] transition-colors"
                   onClick={() => router.push('/dashboard/tasks')}
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full border-2 border-slate-500 flex items-center justify-center">
-                      <AlertCircle className="h-5 w-5 text-slate-300" />
+                    <div className="w-10 h-10 rounded-full border-2 border-[hsl(var(--layout-border))] flex items-center justify-center">
+                      <AlertCircle className="h-5 w-5 text-[hsl(var(--text-primary))]" />
                     </div>
                     <div>
                       <p className="text-white font-medium">
                         You have {overdueTasks.length} overdue task{overdueTasks.length > 1 ? 's' : ''}
                       </p>
-                      <p className="text-slate-400 text-sm">Please review and update your overdue tasks.</p>
+                      <p className="text-[hsl(var(--text-secondary))] text-sm">Please review and update your overdue tasks.</p>
                     </div>
                   </div>
-                  <div className="w-10 h-10 rounded-full bg-slate-700/50 flex items-center justify-center">
-                    <ArrowRight className="h-5 w-5 text-slate-400" />
+                  <div className="w-10 h-10 rounded-full bg-[hsl(var(--layout-border))]/50 flex items-center justify-center">
+                    <ArrowRight className="h-5 w-5 text-[hsl(var(--text-secondary))]" />
                   </div>
                 </div>
               )}
               {overdueTasks.length === 0 && (
-                <div className="flex items-center justify-between bg-[#131d2e]/80 backdrop-blur-sm rounded-xl px-4 py-3">
+                <div className="flex items-center justify-between bg-[hsl(var(--layout-card))]/80 backdrop-blur-sm rounded-xl px-4 py-3">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full border-2 border-emerald-500 flex items-center justify-center">
                       <CheckSquare className="h-5 w-5 text-emerald-400" />
                     </div>
                     <div>
                       <p className="text-white font-medium">All tasks are on track!</p>
-                      <p className="text-slate-400 text-sm">You have no overdue tasks.</p>
+                      <p className="text-[hsl(var(--text-secondary))] text-sm">You have no overdue tasks.</p>
                     </div>
                   </div>
                 </div>
@@ -338,7 +338,7 @@ export default function DashboardPage() {
               </div>
             ) : recentActivity.length === 0 ? (
               <div className="text-center py-8">
-                <p className="text-slate-500">No recent activity</p>
+                <p className="text-[hsl(var(--text-secondary))]">No recent activity</p>
               </div>
             ) : (
               <div className="space-y-3">
@@ -356,9 +356,9 @@ export default function DashboardPage() {
                         {activity.action}
                       </p>
                     </div>
-                    <div className="flex items-center gap-2 text-slate-500 text-xs">
+                    <div className="flex items-center gap-2 text-[hsl(var(--text-secondary))] text-xs">
                       <span>{activity.date}</span>
-                      <span className="w-1.5 h-1.5 rounded-full bg-slate-600"></span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-[hsl(var(--layout-border))]"></span>
                     </div>
                   </div>
                 ))}
@@ -391,13 +391,13 @@ export default function DashboardPage() {
             {isLoading ? (
               <div className="space-y-3">
                 {[1, 2, 3, 4].map((i) => (
-                  <Skeleton key={i} className="h-16 w-full bg-slate-700 rounded-lg" />
+                  <Skeleton key={i} className="h-16 w-full bg-[hsl(var(--layout-border))] rounded-lg" />
                 ))}
               </div>
             ) : myTasks.length === 0 ? (
               <div className="text-center py-8">
-                <CheckSquare className="h-10 w-10 text-slate-600 mx-auto mb-2" />
-                <p className="text-slate-500">No tasks assigned</p>
+                <CheckSquare className="h-10 w-10 text-[hsl(var(--text-secondary))] mx-auto mb-2" />
+                <p className="text-[hsl(var(--text-secondary))]">No tasks assigned</p>
               </div>
             ) : (
               <div className="space-y-2">
@@ -441,13 +441,13 @@ export default function DashboardPage() {
             {isLoading ? (
               <div className="space-y-3">
                 {[1, 2, 3, 4].map((i) => (
-                  <Skeleton key={i} className="h-16 w-full bg-slate-700 rounded-lg" />
+                  <Skeleton key={i} className="h-16 w-full bg-[hsl(var(--layout-border))] rounded-lg" />
                 ))}
               </div>
             ) : projects.length === 0 ? (
               <div className="text-center py-8">
-                <FolderKanban className="h-10 w-10 text-slate-600 mx-auto mb-2" />
-                <p className="text-slate-500">No projects yet</p>
+                <FolderKanban className="h-10 w-10 text-[hsl(var(--text-secondary))] mx-auto mb-2" />
+                <p className="text-[hsl(var(--text-secondary))]">No projects yet</p>
               </div>
             ) : (
               <div className="space-y-2">
@@ -475,7 +475,7 @@ export default function DashboardPage() {
                             className="h-1.5 bg-[hsl(var(--layout-border))]"
                           />
                         </div>
-                        <span className="text-xs text-slate-500">{progress}%</span>
+                        <span className="text-xs text-[hsl(var(--text-secondary))]">{progress}%</span>
                       </div>
                     </div>
                   );

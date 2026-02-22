@@ -17,6 +17,7 @@ interface AuthState {
   fetchPermissions: () => Promise<void>;
   hasPermission: (permission: string) => boolean;
   hasAnyPermission: (permissions: string[]) => boolean;
+  setAuth: (user: User, accessToken: string, refreshToken: string) => void;
   setLoading: (loading: boolean) => void;
   clearError: () => void;
 }
@@ -152,6 +153,16 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
+      setAuth: (user: User, accessToken: string, refreshToken: string) => {
+        set({
+          user,
+          accessToken,
+          refreshToken,
+          isAuthenticated: true,
+          isLoading: false,
+        });
+        get().fetchPermissions();
+      },
       setLoading: (loading: boolean) => set({ isLoading: loading }),
       clearError: () => set({ error: null }),
     }),

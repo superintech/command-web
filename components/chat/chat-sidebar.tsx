@@ -141,12 +141,12 @@ export function ChatSidebar({
       {/* Search */}
       <div className="p-2">
         <div className="relative">
-          <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+          <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 text-[hsl(var(--text-secondary))]" />
           <Input
             placeholder="Find or start a conversation"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-8 bg-[#0a1628] border-slate-700 text-white placeholder:text-slate-500 h-8 text-sm"
+            className="pl-8 bg-[hsl(var(--layout-bg))] border-[hsl(var(--layout-border))] text-[hsl(var(--text-primary))] placeholder:text-[hsl(var(--text-muted))] h-8 text-sm"
           />
         </div>
       </div>
@@ -155,7 +155,7 @@ export function ChatSidebar({
         {/* Direct Messages Section */}
         <div className="px-2 py-1">
           <button
-            className="flex items-center justify-between w-full px-1 py-1 text-xs font-semibold text-slate-400 hover:text-slate-200 uppercase"
+            className="flex items-center justify-between w-full px-1 py-1 text-xs font-semibold text-[hsl(var(--text-secondary))] hover:text-[hsl(var(--text-primary))] uppercase"
             onClick={() => setDmExpanded(!dmExpanded)}
           >
             <span className="flex items-center gap-1">
@@ -165,26 +165,26 @@ export function ChatSidebar({
             <Dialog open={showStartDM} onOpenChange={setShowStartDM}>
               <DialogTrigger asChild>
                 <Plus
-                  className="h-4 w-4 hover:text-white cursor-pointer"
+                  className="h-4 w-4 hover:text-[hsl(var(--text-primary))] cursor-pointer"
                   onClick={(e) => e.stopPropagation()}
                 />
               </DialogTrigger>
-              <DialogContent className="bg-[#131d2e] border-slate-700 text-white">
+              <DialogContent className="bg-[hsl(var(--layout-card))] border-[hsl(var(--layout-border))] text-[hsl(var(--text-primary))]">
                 <DialogHeader>
                   <DialogTitle>Start a Direct Message</DialogTitle>
-                  <DialogDescription className="text-slate-400">
+                  <DialogDescription className="text-[hsl(var(--text-secondary))]">
                     Search for team members by name or email to start a conversation
                   </DialogDescription>
                 </DialogHeader>
                 <div className="mt-4 space-y-4">
                   {/* Search Input */}
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[hsl(var(--text-secondary))]" />
                     <Input
                       placeholder="Search by name or email..."
                       value={dmSearchQuery}
                       onChange={(e) => setDmSearchQuery(e.target.value)}
-                      className="pl-10 bg-[#0a1628] border-slate-700 text-white placeholder:text-slate-500"
+                      className="pl-10 bg-[hsl(var(--layout-bg))] border-[hsl(var(--layout-border))] text-[hsl(var(--text-primary))] placeholder:text-[hsl(var(--text-muted))]"
                       autoFocus
                     />
                   </div>
@@ -193,7 +193,7 @@ export function ChatSidebar({
                   <ScrollArea className="h-72">
                     <div className="space-y-1">
                       {filteredUsersForDM.length === 0 ? (
-                        <div className="text-center py-8 text-slate-400">
+                        <div className="text-center py-8 text-[hsl(var(--text-secondary))]">
                           <AtSign className="h-8 w-8 mx-auto mb-2 opacity-50" />
                           <p className="text-sm">No users found</p>
                           <p className="text-xs mt-1">Try searching with a different name or email</p>
@@ -204,7 +204,7 @@ export function ChatSidebar({
                           return (
                             <button
                               key={u.id}
-                              className="flex items-center gap-3 w-full p-3 rounded-lg hover:bg-slate-700/50 transition-colors group"
+                              className="flex items-center gap-3 w-full p-3 rounded-lg hover:bg-[hsl(var(--layout-card-hover))]/50 transition-colors group"
                               onClick={() => {
                                 onStartDM(u);
                                 setShowStartDM(false);
@@ -220,7 +220,7 @@ export function ChatSidebar({
                                 </Avatar>
                                 <span
                                   className={cn(
-                                    'absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-[#131d2e]',
+                                    'absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-[hsl(var(--layout-card))]',
                                     onlineUsers.has(u.id) ? 'bg-green-500' : 'bg-slate-500'
                                   )}
                                 />
@@ -234,11 +234,11 @@ export function ChatSidebar({
                                     </Badge>
                                   )}
                                 </div>
-                                <div className="flex items-center gap-1 text-xs text-slate-400">
+                                <div className="flex items-center gap-1 text-xs text-[hsl(var(--text-secondary))]">
                                   <Mail className="h-3 w-3" />
                                   <span className="truncate">{u.email}</span>
                                 </div>
-                                <p className="text-xs text-slate-500 mt-0.5">{u.role}</p>
+                                <p className="text-xs text-[hsl(var(--text-secondary))] mt-0.5">{u.role}</p>
                               </div>
                               <div className="opacity-0 group-hover:opacity-100 transition-opacity">
                                 <MessageCircle className="h-5 w-5 text-blue-400" />
@@ -251,7 +251,7 @@ export function ChatSidebar({
                   </ScrollArea>
 
                   {/* Helper Text */}
-                  <p className="text-xs text-slate-500 text-center">
+                  <p className="text-xs text-[hsl(var(--text-secondary))] text-center">
                     {users.length - 1} team member{users.length - 1 !== 1 ? 's' : ''} available
                   </p>
                 </div>
@@ -271,8 +271,8 @@ export function ChatSidebar({
                     key={room.id}
                     onClick={() => onSelectRoom(room)}
                     className={cn(
-                      'flex items-center gap-3 w-full px-2 py-1.5 rounded text-slate-400 hover:bg-slate-700/50 hover:text-slate-200 transition-colors',
-                      isSelected && 'bg-slate-700/50 text-white'
+                      'flex items-center gap-3 w-full px-2 py-1.5 rounded text-[hsl(var(--text-secondary))] hover:bg-[hsl(var(--layout-card-hover))]/50 hover:text-[hsl(var(--text-primary))] transition-colors',
+                      isSelected && 'bg-[hsl(var(--layout-card-hover))]/50 text-[hsl(var(--text-primary))]'
                     )}
                   >
                     <div className="relative">
@@ -284,7 +284,7 @@ export function ChatSidebar({
                       </Avatar>
                       <span
                         className={cn(
-                          'absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-[#131d2e]',
+                          'absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-[hsl(var(--layout-card))]',
                           isOnline ? 'bg-green-500' : 'bg-slate-500'
                         )}
                       />
@@ -307,7 +307,7 @@ export function ChatSidebar({
         {/* Groups Section */}
         <div className="px-2 py-1 mt-2">
           <button
-            className="flex items-center justify-between w-full px-1 py-1 text-xs font-semibold text-slate-400 hover:text-slate-200 uppercase"
+            className="flex items-center justify-between w-full px-1 py-1 text-xs font-semibold text-[hsl(var(--text-secondary))] hover:text-[hsl(var(--text-primary))] uppercase"
             onClick={() => setGroupsExpanded(!groupsExpanded)}
           >
             <span className="flex items-center gap-1">
@@ -317,39 +317,39 @@ export function ChatSidebar({
             <Dialog open={showCreateGroup} onOpenChange={setShowCreateGroup}>
               <DialogTrigger asChild>
                 <Plus
-                  className="h-4 w-4 hover:text-white cursor-pointer"
+                  className="h-4 w-4 hover:text-[hsl(var(--text-primary))] cursor-pointer"
                   onClick={(e) => e.stopPropagation()}
                 />
               </DialogTrigger>
-              <DialogContent className="bg-[#131d2e] border-slate-700 text-white">
+              <DialogContent className="bg-[hsl(var(--layout-card))] border-[hsl(var(--layout-border))] text-[hsl(var(--text-primary))]">
                 <DialogHeader>
                   <DialogTitle>Create a Group</DialogTitle>
                 </DialogHeader>
                 <div className="space-y-4 mt-4">
                   <div>
-                    <Label className="text-slate-400 text-xs uppercase">Group Name</Label>
+                    <Label className="text-[hsl(var(--text-secondary))] text-xs uppercase">Group Name</Label>
                     <Input
                       value={newGroupName}
                       onChange={(e) => setNewGroupName(e.target.value)}
                       placeholder="e.g., Project Alpha Team"
-                      className="mt-2 bg-[#0a1628] border-slate-700 text-white"
+                      className="mt-2 bg-[hsl(var(--layout-bg))] border-[hsl(var(--layout-border))] text-[hsl(var(--text-primary))]"
                     />
                   </div>
                   <div>
-                    <Label className="text-slate-400 text-xs uppercase">Add Members</Label>
-                    <ScrollArea className="h-48 mt-2 bg-[#0a1628] rounded-md border border-slate-700">
+                    <Label className="text-[hsl(var(--text-secondary))] text-xs uppercase">Add Members</Label>
+                    <ScrollArea className="h-48 mt-2 bg-[hsl(var(--layout-bg))] rounded-md border border-[hsl(var(--layout-border))]">
                       <div className="p-2 space-y-1">
                         {users
                           .filter((u) => u.id !== user?.id)
                           .map((u) => (
                             <div
                               key={u.id}
-                              className="flex items-center gap-3 p-2 rounded hover:bg-slate-700/50 cursor-pointer"
+                              className="flex items-center gap-3 p-2 rounded hover:bg-[hsl(var(--layout-card-hover))]/50 cursor-pointer"
                               onClick={() => toggleMember(u.id)}
                             >
                               <Checkbox
                                 checked={selectedMembers.includes(u.id)}
-                                className="border-slate-500"
+                                className="border-[hsl(var(--layout-border))]"
                               />
                               <Avatar className="h-6 w-6">
                                 <AvatarImage src={u.avatar} />
@@ -364,7 +364,7 @@ export function ChatSidebar({
                     </ScrollArea>
                   </div>
                   <div className="flex justify-end gap-2">
-                    <Button variant="ghost" onClick={() => setShowCreateGroup(false)} className="text-white hover:bg-slate-700/50">
+                    <Button variant="ghost" onClick={() => setShowCreateGroup(false)} className="text-[hsl(var(--text-primary))] hover:bg-[hsl(var(--layout-card-hover))]/50">
                       Cancel
                     </Button>
                     <Button
@@ -390,11 +390,11 @@ export function ChatSidebar({
                     key={room.id}
                     onClick={() => onSelectRoom(room)}
                     className={cn(
-                      'flex items-center gap-2 w-full px-2 py-1.5 rounded text-slate-400 hover:bg-slate-700/50 hover:text-slate-200 transition-colors',
-                      isSelected && 'bg-slate-700/50 text-white'
+                      'flex items-center gap-2 w-full px-2 py-1.5 rounded text-[hsl(var(--text-secondary))] hover:bg-[hsl(var(--layout-card-hover))]/50 hover:text-[hsl(var(--text-primary))] transition-colors',
+                      isSelected && 'bg-[hsl(var(--layout-card-hover))]/50 text-[hsl(var(--text-primary))]'
                     )}
                   >
-                    <Hash className="h-5 w-5 text-slate-500" />
+                    <Hash className="h-5 w-5 text-[hsl(var(--text-secondary))]" />
                     <span className="flex-1 text-left text-sm truncate">{room.name}</span>
                     {room.unreadCount && room.unreadCount > 0 && (
                       <Badge className="bg-red-500 text-white text-xs px-1.5 py-0 min-w-[18px] h-[18px]">
@@ -418,11 +418,11 @@ export function ChatSidebar({
               {user ? getInitials(user.name) : '?'}
             </AvatarFallback>
           </Avatar>
-          <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-[#0a1628]" />
+          <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-[hsl(var(--layout-bg))]" />
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-sm font-medium text-[hsl(var(--text-primary))] truncate">{user?.name}</p>
-          <p className="text-xs text-slate-400">Online</p>
+          <p className="text-xs text-[hsl(var(--text-secondary))]">Online</p>
         </div>
       </div>
     </div>

@@ -81,8 +81,8 @@ export function DailyEODRTable({
       data,
     }: {
       id: string;
-      data: Partial<DailyEODREntry>;
-    }) => eodrV2Api.managerEditDaily(id, data, accessToken!),
+      data: Record<string, unknown>;
+    }) => eodrV2Api.managerEditDaily(id, data as any, accessToken!),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['eodr-v2-daily'] });
       toast({
@@ -327,12 +327,12 @@ export function DailyEODRTable({
 
       {/* Table */}
       <EditableTable
-        data={entries}
-        columns={columns}
+        data={entries as any}
+        columns={columns as any}
         rowKey="id"
         userRole={userRole}
         readOnly={!isManager}
-        onCellChange={handleCellChange}
+        onCellChange={handleCellChange as any}
         stickyHeader
         maxHeight="500px"
         emptyMessage="No EODR entries found for this period"
