@@ -26,7 +26,11 @@ interface Message {
   timestamp: Date;
 }
 
-export function AIChatBot() {
+interface AIChatBotProps {
+  sidebarCollapsed?: boolean;
+}
+
+export function AIChatBot({ }: AIChatBotProps) {
   const { accessToken, user } = useAuthStore();
   const [isOpen, setIsOpen] = React.useState(false);
   const [isMinimized, setIsMinimized] = React.useState(false);
@@ -114,7 +118,7 @@ export function AIChatBot() {
     return (
       <Button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 h-14 w-14 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-lg shadow-purple-500/25 z-50"
+        className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-lg shadow-purple-500/25 z-50 transition-all duration-300"
       >
         <Sparkles className="h-6 w-6" />
       </Button>
@@ -124,20 +128,20 @@ export function AIChatBot() {
   return (
     <div
       className={cn(
-        'fixed bottom-6 right-6 z-50 flex flex-col bg-[#0f1729] border border-slate-700 rounded-2xl shadow-2xl shadow-black/50 transition-all duration-300',
-        isMinimized ? 'w-72 h-14' : 'w-96 h-[500px]'
+        'fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-50 flex flex-col bg-[hsl(var(--layout-card))] border border-[hsl(var(--layout-border))] rounded-2xl shadow-2xl shadow-black/50 transition-all duration-300',
+        isMinimized ? 'w-72 h-14' : 'w-[calc(100vw-2rem)] sm:w-96 h-[70vh] sm:h-[500px]'
       )}
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-slate-700 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-t-2xl">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-[hsl(var(--layout-border))] bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-t-2xl">
         <div className="flex items-center gap-2">
           <div className="h-8 w-8 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
             <Bot className="h-4 w-4 text-white" />
           </div>
           <div>
-            <h3 className="font-semibold text-white text-sm">AI Assistant</h3>
+            <h3 className="font-semibold text-[hsl(var(--text-primary))] text-sm">AI Assistant</h3>
             {!isMinimized && (
-              <p className="text-xs text-slate-400">Always here to help</p>
+              <p className="text-xs text-[hsl(var(--text-secondary))]">Always here to help</p>
             )}
           </div>
         </div>
@@ -146,7 +150,7 @@ export function AIChatBot() {
             variant="ghost"
             size="sm"
             onClick={() => setIsMinimized(!isMinimized)}
-            className="h-8 w-8 p-0 text-slate-400 hover:text-white"
+            className="h-8 w-8 p-0 text-[hsl(var(--text-secondary))] hover:text-[hsl(var(--text-primary))]"
           >
             {isMinimized ? (
               <Maximize2 className="h-4 w-4" />
@@ -158,7 +162,7 @@ export function AIChatBot() {
             variant="ghost"
             size="sm"
             onClick={() => setIsOpen(false)}
-            className="h-8 w-8 p-0 text-slate-400 hover:text-white"
+            className="h-8 w-8 p-0 text-[hsl(var(--text-secondary))] hover:text-[hsl(var(--text-primary))]"
           >
             <X className="h-4 w-4" />
           </Button>
@@ -197,7 +201,7 @@ export function AIChatBot() {
                       'max-w-[80%] rounded-2xl px-4 py-2',
                       message.role === 'user'
                         ? 'bg-blue-600 text-white rounded-tr-sm'
-                        : 'bg-slate-800 text-slate-200 rounded-tl-sm'
+                        : 'bg-[hsl(var(--layout-card))] text-[hsl(var(--text-primary))] rounded-tl-sm'
                     )}
                   >
                     <p className="text-sm whitespace-pre-wrap">{message.content}</p>
@@ -215,15 +219,15 @@ export function AIChatBot() {
                   <div className="h-8 w-8 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
                     <Bot className="h-4 w-4 text-white" />
                   </div>
-                  <div className="bg-slate-800 rounded-2xl rounded-tl-sm px-4 py-3">
+                  <div className="bg-[hsl(var(--layout-card))] rounded-2xl rounded-tl-sm px-4 py-3">
                     <div className="flex gap-1">
-                      <span className="w-2 h-2 bg-slate-500 rounded-full animate-bounce" />
+                      <span className="w-2 h-2 bg-[hsl(var(--text-secondary))] rounded-full animate-bounce" />
                       <span
-                        className="w-2 h-2 bg-slate-500 rounded-full animate-bounce"
+                        className="w-2 h-2 bg-[hsl(var(--text-secondary))] rounded-full animate-bounce"
                         style={{ animationDelay: '0.1s' }}
                       />
                       <span
-                        className="w-2 h-2 bg-slate-500 rounded-full animate-bounce"
+                        className="w-2 h-2 bg-[hsl(var(--text-secondary))] rounded-full animate-bounce"
                         style={{ animationDelay: '0.2s' }}
                       />
                     </div>
@@ -234,7 +238,7 @@ export function AIChatBot() {
           </ScrollArea>
 
           {/* Input */}
-          <div className="p-4 border-t border-slate-700">
+          <div className="p-4 border-t border-[hsl(var(--layout-border))]">
             <div className="flex gap-2">
               <Input
                 ref={inputRef}
@@ -242,7 +246,7 @@ export function AIChatBot() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Ask me anything..."
-                className="flex-1 bg-slate-800 border-slate-600 text-white placeholder:text-slate-500 rounded-xl"
+                className="flex-1 bg-[hsl(var(--layout-card))] border-[hsl(var(--layout-border))] text-[hsl(var(--text-primary))] placeholder:text-[hsl(var(--text-muted))] rounded-xl"
                 disabled={chatMutation.isPending}
               />
               <Button
@@ -257,7 +261,7 @@ export function AIChatBot() {
                 )}
               </Button>
             </div>
-            <p className="text-[10px] text-slate-500 mt-2 text-center">
+            <p className="text-[10px] text-[hsl(var(--text-secondary))] mt-2 text-center">
               Powered by AI • Responses may not always be accurate
             </p>
           </div>

@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useAuthStore } from '@/lib/auth-store';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -28,13 +29,14 @@ import {
   User,
   ChevronLeft,
   Plus,
-  Sparkles,
   Home,
+  Search,
 } from 'lucide-react';
 import { TimerIndicator } from '@/components/timer-indicator';
 import { NotificationsDropdown } from '@/components/notifications-dropdown';
 import { ChatNotificationProvider } from '@/components/chat/chat-notification-provider';
 import { AIChatBot } from '@/components/ai';
+import { TeamChatSidebar } from '@/components/team-chat-sidebar';
 import { ThemeToggle } from '@/components/theme-toggle';
 
 const navigation = [
@@ -67,7 +69,23 @@ export default function DashboardLayout({
   const pathname = usePathname();
   const { user, isAuthenticated, isLoading, logout, hasAnyPermission, fetchPermissions, permissions } = useAuthStore();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [teamSidebarExpanded, setTeamSidebarExpanded] = useState(true);
+
+  // Persist team sidebar state in localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem('teamSidebarExpanded');
+    if (saved !== null) setTeamSidebarExpanded(saved === 'true');
+  }, []);
+
+  const toggleTeamSidebar = useCallback(() => {
+    setTeamSidebarExpanded((prev) => {
+      const next = !prev;
+      localStorage.setItem('teamSidebarExpanded', String(next));
+      return next;
+    });
+  }, []);
 
   // Get current page title
   const getCurrentPageTitle = () => {
@@ -161,10 +179,13 @@ export default function DashboardLayout({
             sidebarCollapsed && 'justify-center px-2'
           )}>
             <Link href="/dashboard" className="flex items-center gap-3">
-              {/* SIT Logo */}
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 shadow-lg shadow-cyan-500/20">
-                <span className="text-sm font-bold text-white tracking-tight">SIT</span>
-              </div>
+              <Image
+                src="/logo.png"
+                alt="Super In Tech"
+                width={40}
+                height={40}
+                className="rounded-xl object-contain"
+              />
               {!sidebarCollapsed && (
                 <span className="font-semibold text-[hsl(var(--text-primary))] text-lg">Super In Tech</span>
               )}
@@ -182,7 +203,7 @@ export default function DashboardLayout({
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden text-white"
+              className="lg:hidden text-[hsl(var(--text-primary))]"
               onClick={() => setSidebarOpen(false)}
             >
               <X className="h-5 w-5" />
@@ -236,24 +257,6 @@ export default function DashboardLayout({
             </div>
           </nav>
 
-          {/* Bottom Card - Let's start! */}
-          {!sidebarCollapsed && (
-            <div className="p-4">
-              <div className="bg-[hsl(var(--layout-card))] rounded-xl p-4 text-center">
-                <h3 className="text-[hsl(var(--text-primary))] font-semibold mb-1">Let&apos;s start!</h3>
-                <p className="text-[hsl(var(--text-secondary))] text-xs mb-4">
-                  Creating or adding new tasks couldn&apos;t be easier
-                </p>
-                <Button
-                  className="w-full bg-blue-500 hover:bg-blue-600 text-white"
-                  onClick={() => router.push('/dashboard/tasks')}
-                >
-                  <Sparkles className="h-4 w-4 mr-2" />
-                  Improvements
-                </Button>
-              </div>
-            </div>
-          )}
         </aside>
 
         {/* Main content */}
@@ -265,7 +268,7 @@ export default function DashboardLayout({
               <Button
                 variant="ghost"
                 size="icon"
-                className="lg:hidden text-white"
+                className="lg:hidden text-[hsl(var(--text-primary))]"
                 onClick={() => setSidebarOpen(true)}
               >
                 <Menu className="h-5 w-5" />
@@ -285,7 +288,34 @@ export default function DashboardLayout({
 
             {/* Right - Actions */}
             <div className="flex items-center gap-3">
+              {/* Mobile Search Toggle */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden text-[hsl(var(--text-secondary))]"
+                onClick={() => setMobileSearchOpen(!mobileSearchOpen)}
+              >
+                <Search className="h-5 w-5" />
+              </Button>
+
               <TimerIndicator />
+
+              {/* Mobile Quick-Create */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button size="icon" className="sm:hidden bg-blue-500 hover:bg-blue-600 text-white h-9 w-9">
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-48" align="end">
+                  <DropdownMenuItem onClick={() => router.push('/dashboard/projects')}>
+                    <FolderKanban className="mr-2 h-4 w-4" /> New Project
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => router.push('/dashboard/tasks')}>
+                    <CheckSquare className="mr-2 h-4 w-4" /> New Task
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
 
               {/* New Project Button */}
               <Button
@@ -352,13 +382,23 @@ export default function DashboardLayout({
             </div>
           </header>
 
+          {/* Mobile Search Bar */}
+          {mobileSearchOpen && (
+            <div className="md:hidden px-4 py-2 bg-[hsl(var(--layout-card))] border-b border-[hsl(var(--layout-border))]">
+              <GlobalSearch />
+            </div>
+          )}
+
           {/* Page content */}
-          <main className="flex-1 overflow-y-auto p-6 bg-[hsl(var(--layout-bg))]">{children}</main>
+          <main className="flex-1 overflow-y-auto p-4 sm:p-6 bg-[hsl(var(--layout-bg))]">{children}</main>
         </div>
+
+        {/* Team Chat Sidebar - always visible */}
+        <TeamChatSidebar expanded={teamSidebarExpanded} onToggle={toggleTeamSidebar} />
       </div>
 
-      {/* AI Chat Bot - Floating */}
-      <AIChatBot />
+      {/* AI Chat Bot - Floating, positioned to avoid sidebar overlap */}
+      <AIChatBot sidebarCollapsed={sidebarCollapsed} />
     </ChatNotificationProvider>
   );
 }
