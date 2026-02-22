@@ -771,44 +771,48 @@ export default function ReportsPage() {
       </div>
 
       <Tabs defaultValue={userIsManager ? "eodr-table" : "my-kpi"}>
-        <TabsList className="flex-wrap bg-[hsl(var(--layout-card))] border border-[hsl(var(--layout-border))]">
+        <TabsList className="flex-wrap sm:flex-nowrap overflow-x-auto h-auto bg-[hsl(var(--layout-card))] border border-[hsl(var(--layout-border))]">
           {/* Employee-only tabs */}
           {!userIsManager && (
             <>
-              <TabsTrigger value="my-kpi" className="data-[state=active]:bg-blue-500 data-[state=active]:text-white text-[hsl(var(--text-secondary))]">My KPI</TabsTrigger>
-              <TabsTrigger value="submit-report" className="data-[state=active]:bg-blue-500 data-[state=active]:text-white text-[hsl(var(--text-secondary))]">
-                <FileUp className="h-4 w-4 mr-1" />
-                Submit Report
+              <TabsTrigger value="my-kpi" className="text-xs sm:text-sm data-[state=active]:bg-blue-500 data-[state=active]:text-white text-[hsl(var(--text-secondary))]">My KPI</TabsTrigger>
+              <TabsTrigger value="submit-report" className="text-xs sm:text-sm data-[state=active]:bg-blue-500 data-[state=active]:text-white text-[hsl(var(--text-secondary))]">
+                <FileUp className="h-4 w-4 sm:mr-1 hidden sm:inline" />
+                Submit
               </TabsTrigger>
-              <TabsTrigger value="eodr" className="data-[state=active]:bg-blue-500 data-[state=active]:text-white text-[hsl(var(--text-secondary))]">Daily Reports</TabsTrigger>
+              <TabsTrigger value="eodr" className="text-xs sm:text-sm data-[state=active]:bg-blue-500 data-[state=active]:text-white text-[hsl(var(--text-secondary))]">
+                <span className="sm:hidden">Reports</span>
+                <span className="hidden sm:inline">Daily Reports</span>
+              </TabsTrigger>
             </>
           )}
           {/* Manager-only tab */}
           {userIsManager && (
-            <TabsTrigger value="daily-scoring" className="data-[state=active]:bg-blue-500 data-[state=active]:text-white text-[hsl(var(--text-secondary))]">
-              <ClipboardCheck className="h-4 w-4 mr-1" />
+            <TabsTrigger value="daily-scoring" className="text-xs sm:text-sm data-[state=active]:bg-blue-500 data-[state=active]:text-white text-[hsl(var(--text-secondary))]">
+              <ClipboardCheck className="h-4 w-4 sm:mr-1 hidden sm:inline" />
               Daily Scoring
             </TabsTrigger>
           )}
-          <TabsTrigger value="employee-of-month" className="data-[state=active]:bg-blue-500 data-[state=active]:text-white text-[hsl(var(--text-secondary))]">
-            <Trophy className="h-4 w-4 mr-1" />
-            Employee of Month
+          <TabsTrigger value="employee-of-month" className="text-xs sm:text-sm data-[state=active]:bg-blue-500 data-[state=active]:text-white text-[hsl(var(--text-secondary))]">
+            <Trophy className="h-4 w-4 sm:mr-1 hidden sm:inline" />
+            <span className="sm:hidden">EOM</span>
+            <span className="hidden sm:inline">Employee of Month</span>
           </TabsTrigger>
-          <TabsTrigger value="eodr-table" className="data-[state=active]:bg-green-500 data-[state=active]:text-white text-[hsl(var(--text-secondary))]">
-            <BarChart3 className="h-4 w-4 mr-1" />
+          <TabsTrigger value="eodr-table" className="text-xs sm:text-sm data-[state=active]:bg-green-500 data-[state=active]:text-white text-[hsl(var(--text-secondary))]">
+            <BarChart3 className="h-4 w-4 sm:mr-1 hidden sm:inline" />
             EODR Table
           </TabsTrigger>
-          <TabsTrigger value="weekly-summary" className="data-[state=active]:bg-green-500 data-[state=active]:text-white text-[hsl(var(--text-secondary))]">
-            <Calendar className="h-4 w-4 mr-1" />
+          <TabsTrigger value="weekly-summary" className="text-xs sm:text-sm data-[state=active]:bg-green-500 data-[state=active]:text-white text-[hsl(var(--text-secondary))]">
+            <Calendar className="h-4 w-4 sm:mr-1 hidden sm:inline" />
             Weekly
           </TabsTrigger>
-          <TabsTrigger value="monthly-commission" className="data-[state=active]:bg-green-500 data-[state=active]:text-white text-[hsl(var(--text-secondary))]">
-            <TrendingUp className="h-4 w-4 mr-1" />
+          <TabsTrigger value="monthly-commission" className="text-xs sm:text-sm data-[state=active]:bg-green-500 data-[state=active]:text-white text-[hsl(var(--text-secondary))]">
+            <TrendingUp className="h-4 w-4 sm:mr-1 hidden sm:inline" />
             Commission
           </TabsTrigger>
           {user?.role === 'ADMIN' && (
-            <TabsTrigger value="holidays" className="data-[state=active]:bg-purple-500 data-[state=active]:text-white text-[hsl(var(--text-secondary))]">
-              <CalendarDays className="h-4 w-4 mr-1" />
+            <TabsTrigger value="holidays" className="text-xs sm:text-sm data-[state=active]:bg-purple-500 data-[state=active]:text-white text-[hsl(var(--text-secondary))]">
+              <CalendarDays className="h-4 w-4 sm:mr-1 hidden sm:inline" />
               Holidays
             </TabsTrigger>
           )}
@@ -1707,16 +1711,16 @@ export default function ReportsPage() {
         {/* EODR Table Tab - Excel-like view */}
         <TabsContent value="eodr-table" className="space-y-6">
           <Card className="!bg-[hsl(var(--layout-card))] border-[hsl(var(--layout-border))]">
-            <CardContent className="p-6">
+            <CardContent className="p-3 sm:p-6">
               {/* Employee Selector for Managers/Admins */}
               {userIsManager && (
-                <div className="mb-6 flex items-center gap-4">
+                <div className="mb-6 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
                   <Label className="text-[hsl(var(--text-primary))]">Select Employee:</Label>
                   <Select
                     value={selectedEodrEmployeeId || ''}
                     onValueChange={(v) => setSelectedEodrEmployeeId(v || null)}
                   >
-                    <SelectTrigger className="w-[280px] bg-[hsl(var(--layout-card))] border-[hsl(var(--layout-border))]">
+                    <SelectTrigger className="w-full sm:w-[280px] bg-[hsl(var(--layout-card))] border-[hsl(var(--layout-border))]">
                       <SelectValue placeholder="Choose an employee..." />
                     </SelectTrigger>
                     <SelectContent>
@@ -1752,16 +1756,16 @@ export default function ReportsPage() {
         {/* Weekly Summary Tab */}
         <TabsContent value="weekly-summary" className="space-y-6">
           <Card className="!bg-[hsl(var(--layout-card))] border-[hsl(var(--layout-border))]">
-            <CardContent className="p-6">
+            <CardContent className="p-3 sm:p-6">
               {/* Employee Selector for Managers/Admins */}
               {userIsManager && (
-                <div className="mb-6 flex items-center gap-4">
+                <div className="mb-6 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
                   <Label className="text-[hsl(var(--text-primary))]">Select Employee:</Label>
                   <Select
                     value={selectedEodrEmployeeId || ''}
                     onValueChange={(v) => setSelectedEodrEmployeeId(v || null)}
                   >
-                    <SelectTrigger className="w-[280px] bg-[hsl(var(--layout-card))] border-[hsl(var(--layout-border))]">
+                    <SelectTrigger className="w-full sm:w-[280px] bg-[hsl(var(--layout-card))] border-[hsl(var(--layout-border))]">
                       <SelectValue placeholder="Choose an employee..." />
                     </SelectTrigger>
                     <SelectContent>
@@ -1797,16 +1801,16 @@ export default function ReportsPage() {
         {/* Monthly Commission Tab */}
         <TabsContent value="monthly-commission" className="space-y-6">
           <Card className="!bg-[hsl(var(--layout-card))] border-[hsl(var(--layout-border))]">
-            <CardContent className="p-6">
+            <CardContent className="p-3 sm:p-6">
               {/* Employee Selector for Managers/Admins */}
               {userIsManager && (
-                <div className="mb-6 flex items-center gap-4">
+                <div className="mb-6 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
                   <Label className="text-[hsl(var(--text-primary))]">Select Employee:</Label>
                   <Select
                     value={selectedEodrEmployeeId || ''}
                     onValueChange={(v) => setSelectedEodrEmployeeId(v || null)}
                   >
-                    <SelectTrigger className="w-[280px] bg-[hsl(var(--layout-card))] border-[hsl(var(--layout-border))]">
+                    <SelectTrigger className="w-full sm:w-[280px] bg-[hsl(var(--layout-card))] border-[hsl(var(--layout-border))]">
                       <SelectValue placeholder="Choose an employee..." />
                     </SelectTrigger>
                     <SelectContent>
